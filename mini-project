@@ -1,0 +1,96 @@
+
+console.log("--- Product Inventory System ---");
+
+var store = "TechStore";
+
+const inventory = [
+    { name: "Laptop", price: 800 },
+    { name: "Mouse", price: 25 }
+];
+
+// Input
+let name = prompt("Enter product name:");
+let price = Number(prompt("Enter product price:"));
+
+// Validation and duplicate search
+if (name === null || name.trim() === "" || !Number.isFinite(price) || price <= 0) {
+    console.log("Invalid product details.");
+} else {
+    let duplicate = false;
+
+    for (let i = 0; i < inventory.length; i++) {
+        if (inventory[i].name.toLowerCase() !== name.trim().toLowerCase())
+            continue;
+
+        duplicate = true;
+        break;
+    }
+
+    if (duplicate) {
+        console.log("Product already exists.");
+    } else {
+        inventory.push({ name: name.trim(), price: price });
+        console.log("Product added successfully.");
+    }
+}
+
+// Category using if-else and switch
+function category(price) {
+    let type = price < 50 ? 1 : price < 200 ? 2 : 3;
+
+    switch (type) {
+        case 1: return "Budget";
+        case 2: return "Standard";
+        default: return "Premium";
+    }
+}
+
+// Regular function with default parameter
+function totalValue(items = inventory) {
+    let total = 0;
+    items.forEach(item => total += item.price);
+    return total;
+}
+
+// Arrow function with default tax rate
+const afterTax = (amount, tax = 0.10) => amount * (1 + tax);
+
+// Inventory report
+console.log("\n--- Inventory Report ---");
+
+inventory.forEach(item => {
+    console.log(
+        item.name + " ($" + item.price + ") -> " + category(item.price)
+    );
+});
+
+// Financial analytics
+const total = totalValue();
+console.log("\nTotal Inventory Value: $" + total);
+console.log("Value After 10% Tax: $" + afterTax(total));
+
+// Array methods
+const affordable = inventory.filter(item => item.price < 200);
+console.log("Affordable Products:", affordable.map(item => item.name));
+
+const report = inventory.map(
+    item => item.name.toUpperCase() + ": $" + item.price
+);
+console.log("Formatted Report:", report);
+
+// typeof and scope demonstration
+console.log("Store Type:", typeof store);
+console.log("Inventory Type:", typeof inventory);
+
+{
+    let blockVar = "Local variable";
+    console.log(blockVar);
+}
+
+// Do-while loop with continue
+let count = 0;
+do {
+    count++;
+    if (count === 2) continue;
+    console.log("Loop count:", count);
+} while (count < 3);
